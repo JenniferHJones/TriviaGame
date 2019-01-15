@@ -1,0 +1,14 @@
+body {
+    font-family: 'Philosopher', sans-serif;
+    background-image: linear-gradient(to right, #1a2738, #004e92);
+}
+
+.container {
+    height: 700px;
+    color: white;
+    background-color: #1a2738;
+}
+
+#start {
+    margin-top: 200px;
+}
