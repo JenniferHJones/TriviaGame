@@ -19,20 +19,34 @@
 
     <div class="container mt-5 border border-primary">
         <div>
-            <h1 class="text-center mt-5">Interesting Random Trivia</h1>
+            <div id="title" class="text-center mt-5">Absolutely Random Trivia</div>
             <div class="row justify-content-center">
                 <div class="col-3">
-                    <input id="start" class="btn btn-outline-primary btn-lg btn-block" type="submit" value="Start">
+                    <button id="start" type="button" class="btn btn-outline-primary btn-lg btn-block">Start Game</button>
                 </div>
             </div>
-            <div id="timer"></div>
-            <div id="question"></div>
-            <div id="answer1"><a href="#" class="card-link"></a></div>
-            <div id="answer2"><a href="#" class="card-link"></a></div>
-            <div id="answer3"><a href="#" class="card-link"></a></div>
-            <div id="answer4"><a href="#" class="card-link"></a></div>
+            <div id="timer" class="row justify-content-center"></div>
+            <div id="question" class="row justify-content-center"></div>
+            <div class="row justify-content-center">
+                <div class="col">
+                    <button id="answer1" type="button" class="btn btn-outline-primary btn-lg btn-block mt-5"></button>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col">
+                    <button id="answer2" type="button" class="btn btn-outline-primary btn-lg btn-block mt-5"></button>
+                </div>
+            </div>
+            <div id="displayAnswer" class="row justify-content-center"></div>
+            <div class="row justify-content-center">
+                <div class="col-3">
+                    <button id="startOver" type="button" class="btn btn-outline-primary btn-lg btn-block mt-5">Start
+                        Over?</button>
+                </div>
+            </div>
         </div>
     </div>
+
 </body>
 
 </html>

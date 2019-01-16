@@ -9,6 +9,19 @@ body {
     background-color: #1a2738;
 }
 
+#title {
+    font-size: 4em;
+}
 #start {
     margin-top: 200px;
+}
+
+#timer {
+    margin-top: 100px;
+    font-size: 3em;
+}
+
+#question {
+    margin-top: 50px;
+    font-size: 2.5em;
 }
