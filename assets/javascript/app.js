@@ -1,9 +1,9 @@
 $(document).ready(function () {
 
     // function to hide unnecessary variables once page loads
-        $("#answer1").hide();
-        $("#answer2").hide();
-        $("#startOver").hide();
+    $("#answer1").hide();
+    $("#answer2").hide();
+    $("#startOver").hide();
 
 
     // question variables
@@ -52,8 +52,8 @@ $(document).ready(function () {
     var question7 = {
         question: "Canine is to dogs as ursine is to...",
         answer: "Bears",
-        choices: ["Pigs", "Bears"],
-        correctAnswer: 1,
+        choices: ["Bears", "Pigs"],
+        correctAnswer: 0,
     };
     var question8 = {
         question: "Espadrilles are...",
@@ -70,16 +70,22 @@ $(document).ready(function () {
 
     var questions = [question0, question1, question2, question3, question4, question5, question6, question7, question8, question9];
 
-    // variable for setInterval
-    var nextQuestion;
+    // variable for interval ID 
+    var intervalID;
+
+    var userClick;
 
     //variable to track index of currently displayed question
     var count = 0;
 
-    // score variables
-    var correctAnswer = 0;
-    var incorrectAnswer = 0;
-    var unanswered = 0;
+    // set timer counter to 15 seconds.
+    var timer = 5;
+
+    var gameScores = {
+        correctAnswer: 0,
+        incorrectAnswer: 0,
+        unanswered: 0,
+    };
 
     // start game
     $("#start").click(startGame);
@@ -87,27 +93,86 @@ $(document).ready(function () {
     // start game over
     $("#startOver").click(resetGame);
 
+    // game reset function
+    function resetGame() {
+        gameScores.correctAnswer = 0;
+        gameScores.incorrectAnswer = 0;
+        gameScores.unanswered = 0;
+        count = 0;
+    }
+
     // function to run after start button is clicked
     function startGame() {
+        intervalID = setInterval(decrement, 1000);
         $("#start").hide();
-        $("#timer").html("<div>" + "Time Remaining:" + "</div>");
-        $("#question").html("<div>" + questions[count].question + "</div>");
+        $("#timeUp").hide();
+        $("#timer").html("Seconds Remaining: " + timer);
+        $("#question").html(questions[count].question);
+        $("#answer1").show();
+        $("#answer2").show();
         $("#answer1").html(questions[count].choices[0]);
         $("#answer2").html(questions[count].choices[1]);
-        setTimeout(displayAnswer, 10000);
+        console.log(questions[count].answer);
+    };
+
+    // function to decrease timer by 1 with if statement for conditions
+    function decrement() {
+        timer--;
+        $("#timer").html("Seconds Remaining: " + timer);
+        if (timer === 0) {
+            stop();
+            $("#timer").hide();
+            $("#answer1").hide();
+            $("#answer2").hide();
+            $("#timeUp").show();
+            $("#timeUp").html("Time is up!");
+            $("#displayAnswer").html(questions[count].answer);
+            setInterval(nextQuestion, 3000);
+        }
+    };
+
+    function stop() {
+        clearInterval(intervalID);
+    };
+
+    // function for next question
+    function nextQuestion() {
+        count++;
+        if (count < questions.length) {
+            clearInterval(intervalID);
+            intervalID = setInterval(decrement, 1000);
+            $("#timeUp").hide();
+            $("#displayAnswer").hide();
+            $("#timer").show();
+            $("#timer").html("Seconds Remaining: " + timer);
+            $("#question").html(questions[count].question);
+            $("#answer1").show();
+            $("#answer2").show();
+            $("#answer1").html(questions[count].choices[0]);
+            $("#answer2").html(questions[count].choices[1]);
+            console.log(questions[count].answer);
+        } else {
+            gameScores();
+        }
+
+    }
+    // user input check
+    //$("#answer1").click () {
+    //    if (question[count].answer === )
+    //}
+
+    if (userClick === questions[count].answer) {
+        $(questions[count].choices).click(displayAnswer);
     };
 
     function displayAnswer() {
-        $("#displayAnswer").html("<div>" + questions[count].answer + "</div>")
-    }
-
-    function nextQuestion() {
-        displayQuestion = setInterval(nextQuestion, 10000);
-    }
+        $("#displayAnswer").html("That's right!");
+        $("#displayAnswer").html("<div>" + questions[count].answer + "</div");
+    };
 
 
-    // replace start button with "Time remaining:" with # of seconds left on line 1,
-    // first question with 2 possible answers (buttons).
+
+
     // Clicking an answer freezes timer, game tells player correct or not, 
     // and gives correct answer for # seconds.
     // Game goes to next question with new time remaining countdown.
