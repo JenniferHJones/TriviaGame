@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
     // function to hide unnecessary variables once page loads
-    $("#answer1").hide();
-    $("#answer2").hide();
+    $("#choice1").hide();
+    $("#choice2").hide();
     $("#startOver").hide();
 
     // questions array using objects
@@ -59,46 +59,74 @@ $(document).ready(function () {
         },
     ]
 
-    var intervalID;
-
-    //variable to track index of currently displayed question
     var questionCount = 0;
-
-    // set timer counter to 15 seconds.
-    var timer = 10;
-
-    var gameScores = {
-        correctAnswer: 0,
-        incorrectAnswer: 0,
-        unanswered: 0,
-        questionCount: 0
-    };
+    var timer;
+    var intervalID;
+    var correctAnswer = 0;
+    var incorrectAnswer = 0;
+    var unanswered = 0;
 
     // game reset function
     function resetGame() {
-        gameScores.correctAnswer = 0;
-        gameScores.incorrectAnswer = 0;
-        gameScores.unanswered = 0;
+        correctAnswer = 0;
+        incorrectAnswer = 0;
+        unanswered = 0;
         questionCount = 0;
-    }
+        $("#startOver").hide();
+        $("#question").show();
+    };
 
     // start game
     $("#start").click(startGame);
 
     // function to run when start button is clicked
     function startGame() {
-        resetGame();
-        intervalID = setInterval(displayTime, 1000);
         $("#start").hide();
+        displayQuestion();
+    };
+
+    function displayQuestion() {
+        timer = 5;
+        intervalID = setInterval(displayTime, 1000);
         $("#timeUp").hide();
+        $("#timer").show();
         $("#timer").html("Seconds Remaining: " + timer);
         $("#question").html(questions[questionCount].question);
-        $("#answer1").show();
-        $("#answer2").show();
-        $("#answer1").html(questions[questionCount].choices[0]);
-        $("#answer2").html(questions[questionCount].choices[1]);
+        $("#choice1").show();
+        $("#choice2").show();
+        $("#choice1").html(questions[questionCount].choices[0]);
+        $("#choice2").html(questions[questionCount].choices[1]);
         console.log(questions[questionCount].answer);
+
+        /* attempted to record user's click
+        var button;
+        var s = questions[questionCount];
+
+        for (var i = 0; i < s.choices.length; i++) {
+            button = $(s.choices[i]);
+            button.on("click", userAnswer);
+        }
+        */
     };
+
+    /* tried to create function to register user's click and add to correct or incorrect answer score
+    function userAnswer() {
+        if (questionCount < questions.length) {
+            var userClick = $(this).attr("data-value");
+            if (userClick === questions[questionCount].answer) {
+                $("#displayAnswer").html("Correct!");
+                correctAnswer++;
+            } else {
+                $("#displayAnswer").html("Sorry! The correct answer was" + questions[questionCount].answer);
+                incorrectAnswer++;
+            }
+            questionCount++;
+            setTimeout(displayQuestion, 5000);
+        } else {
+            setTimeout(displayScore, 5000);
+        }
+    };
+    */
 
     // function to decrease timer by 1 with if statement
     function displayTime() {
@@ -106,62 +134,53 @@ $(document).ready(function () {
         $("#timer").html("Seconds Remaining: " + timer);
         if (timer === 0) {
             clearInterval(intervalID);
+            displayAnswer();
             $("#timer").hide();
-            $("#answer1").hide();
-            $("#answer2").hide();
+            $("#choice1").hide();
+            $("#choice2").hide();
             $("#timeUp").show();
-            $("#timeUp").html("Time is up!");
-            $("#displayAnswer").html(questions[questionCount].answer);
-            setInterval(nextQuestion, 3000);
         }
     };
 
-    /*
-        // start game over
-        $("#startOver").click(resetGame);
-        
-        // function for next question
-        function nextQuestion() {
-            questionCount++;
-            if (questionCount < questions.length) {
-                clearInterval(intervalID);
-                intervalID = setInterval(displayTime, 1000);
-                $("#timeUp").hide();
-                $("#displayAnswer").hide();
-                $("#timer").show();
-                $("#timer").html("Seconds Remaining: " + timer);
-                $("#question").html(questions[questionCount].question);
-                $("#answer1").show();
-                $("#answer2").show();
-                $("#answer1").html(questions[questionCount].choices[0]);
-                $("#answer2").html(questions[questionCount].choices[1]);
-                console.log(questions[questionCount].answer);
-            } else {
-                gameScores();
-            }
-    
+    // Error - couldn't figure out how to hide answer from previous question when game advances to next question
+    function displayAnswer(userAnswer) {
+        $("#displayAnswer").html(questions[questionCount].answer);
+
+        if (userAnswer === undefined) {
+            $("#timeUp").show();
+            $("#timeUp").html("Time is up!");
+            unanswered++;
+        } else if (userAnswer === questions[questionCount].answer) {
+            correctAnswer++;
+        } else {
+            incorrectAnswer++;
         }
-        // user input check
-        //$("#answer1").click () {
-        //    if (question[questionCount].answer === )
-        //}
-    
-        if (userClick === questions[questionCount].answer) {
-            $(questions[questionCount].choices).click(displayAnswer);
-        };
-    
-        function displayAnswer() {
-            $("#displayAnswer").html("That's right!");
-            $("#displayAnswer").html("<div>" + questions[questionCount].answer + "</div");
-        };
-    
-    
-        // Clicking an answer freezes timer, game tells player correct or not, 
-        // and gives correct answer for # seconds.
-        // Game goes to next question with new time remaining countdown.
-        // If time runs out, display "out of time" message on line 1, 
-        // correct answer on line 2 for # seconds.
-        // At end of game, tell player "You are done! Here's your score:"
-        // Correct Answers:  #, Incorrect Answers:  #, Unanswered:  #, Start Over? button
-    */
+
+        questionCount++;
+        if (questionCount < questions.length) {
+            setTimeout(displayQuestion, 3000);
+        } else {
+            setTimeout(displayScore, 3000);
+        }
+    };
+
+    // function to display user's score
+    function displayScore () {
+        $("#displayAnswer").hide();
+        $("#timeUp").hide();
+        $("#question").hide();
+        $("#startOver").show();
+        $("#displayScore").html("Game Over!"); 
+        $("#correct").html("Correct Answers:  " + correctAnswer);
+        $("#incorrect").html("Incorrect Answers:  " + incorrectAnswer); 
+        $("#unanswered").html("Unanswered:  " + unanswered);
+    }
+
+    // start game over
+        $("#startOver").click(function() {
+            $("#wrapper").hide();
+            $("#displayScore").hide();
+            resetGame();
+            startGame();
+        });
 })

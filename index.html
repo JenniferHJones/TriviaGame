@@ -10,8 +10,6 @@
     <link rel="reset" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Philosopher:400,700" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/javascript/app.js"></script>
     <title>Trivia Game</title>
 </head>
 
@@ -29,16 +27,22 @@
             <div id="timeUp" class="row justify-content-center"></div>
             <div id="question" class="row justify-content-center"></div>
             <div class="row justify-content-center">
-                <div class="col">
-                    <button id="answer1" type="button" class="btn btn-outline-primary btn-lg btn-block mt-5"></button>
+                <div class="col-5">
+                    <button id="choice1" type="button" class="btn btn-outline-primary btn-lg btn-block mt-5"></button>
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col">
-                    <button id="answer2" type="button" class="btn btn-outline-primary btn-lg btn-block mt-5"></button>
+                <div class="col-5">
+                    <button id="choice2" type="button" class="btn btn-outline-primary btn-lg btn-block mt-5"></button>
                 </div>
             </div>
             <div id="displayAnswer" class="row justify-content-center"></div>
+            <div id="displayScore" class="row justify-content-center"></div>
+            <div id="wrapper">
+                <div id="correct" class="row justify-content-center"></div>
+                <div id="incorrect" class="row justify-content-center"></div>
+                <div id="unanswered" class="row justify-content-center"></div>
+            </div>
             <div class="row justify-content-center">
                 <div class="col-3">
                     <button id="startOver" type="button" class="btn btn-outline-primary btn-lg btn-block mt-5">Start
@@ -47,6 +51,9 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/javascript/app.js"></script>
 
 </body>
 
