@@ -142,8 +142,9 @@ $(document).ready(function () {
         }
     };
 
-    // Error - couldn't figure out how to hide answer from previous question when game advances to next question
+    // Error - couldn't figure out how to hide answer from previous question when game advanced to next question
     function displayAnswer(userAnswer) {
+        $("#displayAnswer").show();
         $("#displayAnswer").html(questions[questionCount].answer);
 
         if (userAnswer === undefined) {
